@@ -1,0 +1,36 @@
+config:
+  name: notification-configmap
+  port: 9000
+  database: postgresql
+  ddl: create
+  driver: org.postgresql.Driver
+secret:
+    name: notification-secret
+deployment:
+  app:
+    name: notification
+    type: NodePort
+    image: andrey1andrey/notification-service:latest
+    port: 9000
+    sport: "9000"
+    replicas: 1
+    uri: "notification-service"
+  db:
+    name: notification-postgresql
+    type: NodePort
+    image: postgres:latest
+    port: 5432
+    replicas: 1
+service:
+  app:
+    name: notification
+    type: NodePort
+    protocol: TCP
+    port: 9000
+  db:
+    name: notification-postgresql
+    type: NodePort
+    dbname: db
+    host: "notification-postgresql"
+    port: 5432
+    sport: "5432"

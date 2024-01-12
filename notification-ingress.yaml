@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: notification
+spec:
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - path: /notification/send
+            pathType: Prefix
+            backend:
+              service:
+                name: notification
+                port:
+                  number: 9000
+          - path: /notification/get
+            pathType: Prefix
+            backend:
+              service:
+                name: notification
+                port:
+                  number: 9000

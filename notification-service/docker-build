@@ -1,0 +1,14 @@
+minikube start
+minikube addons enable ingress
+minikube dashboard
+kubectl create ns auth
+kubectl config set-context --current --namespace=auth
+cd "C:\My\Обучение\Otus\MicrosArchit\03\22 Идемпотентость и коммутативность API в HTTP и очередях  ДЗ\otus_3_22\notification-service"
+
+docker build -t notification-service .
+docker tag notification-service andrey1andrey/notification-service
+docker push andrey1andrey/notification-service
+
+helm install notification-service chart/ --values chart/notification-values.yaml
+helm delete notification-service
+kubectl apply -f notification-ingress.yaml

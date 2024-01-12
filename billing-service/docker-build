@@ -1,0 +1,14 @@
+minikube start
+minikube addons enable ingress
+minikube dashboard
+kubectl create ns auth
+kubectl config set-context --current --namespace=auth
+cd "C:\My\Обучение\Otus\MicrosArchit\03\22 Идемпотентость и коммутативность API в HTTP и очередях  ДЗ\otus_3_22\billing-service"
+
+docker build -t billing-service .
+docker tag billing-service andrey1andrey/billing-service
+docker push andrey1andrey/billing-service
+
+helm install billing-service chart/ --values chart/billing-values.yaml
+helm delete billing-service
+kubectl apply -f billing-ingress.yaml

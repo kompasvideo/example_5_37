@@ -1,0 +1,14 @@
+minikube start
+minikube addons enable ingress
+minikube dashboard
+kubectl create ns auth
+kubectl config set-context --current --namespace=auth
+cd "C:\My\Обучение\Otus\MicrosArchit\03\22 Идемпотентость и коммутативность API в HTTP и очередях  ДЗ\otus_3_22\order-service"
+
+docker build -t order-service .
+docker tag order-service andrey1andrey/order-service
+docker push andrey1andrey/order-service
+
+helm install order-service chart/ --values chart/order-values.yaml
+helm delete order-service
+kubectl apply -f orders-ingress.yaml

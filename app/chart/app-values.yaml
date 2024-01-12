@@ -1,0 +1,36 @@
+config:
+  name: app-configmap
+  port: 9000
+  database: postgresql
+  ddl: create
+  driver: org.postgresql.Driver
+secret:
+    name: app-secret
+deployment:
+  app:
+    name: app
+    type: NodePort
+    image: andrey1andrey/otus322-app:latest
+    port: 9000
+    sport: "9000"
+    replicas: 1
+    uri: "app-service"
+  db:
+    name: app-postgresql
+    type: NodePort
+    image: postgres:latest
+    port: 5432
+    replicas: 1
+service:
+  app:
+    name: app
+    type: NodePort
+    protocol: TCP
+    port: 9000
+  db:
+    name: app-postgresql
+    type: NodePort
+    dbname: db
+    host: "app-postgresql"
+    port: 5432
+    sport: "5432"

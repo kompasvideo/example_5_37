@@ -1,0 +1,36 @@
+config:
+  name: auth-configmap
+  port: 9000
+  database: postgresql
+  ddl: create
+  driver: org.postgresql.Driver
+secret:
+    name: auth-secret
+deployment:
+  app:
+    name: auth
+    type: NodePort
+    image: andrey1andrey/otus322-auth:latest
+    port: 9000
+    sport: "9000"
+    replicas: 1
+    uri: "profiles-service"
+  db:
+    name: auth-postgresql
+    type: NodePort
+    image: postgres:latest
+    port: 5432
+    replicas: 1
+service:
+  app:
+    name: auth
+    type: NodePort
+    protocol: TCP
+    port: 9000
+  db:
+    name: auth-postgresql
+    type: NodePort
+    dbname: db
+    host: "auth-postgresql"
+    port: 5432
+    sport: "5432"

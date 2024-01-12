@@ -1,0 +1,114 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.app.name }}
+spec:
+  replicas: {{ .Values.deployment.app.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.app.name }}
+    spec:
+      containers:
+        - name: {{ .Values.deployment.app.name }}
+          image: {{ .Values.deployment.app.image }}
+          ports:
+            - name: web
+              containerPort: {{ .Values.deployment.app.port }}
+          env:
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: SERVER_PORT
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: SPRING_JPA_HIBERNATE_DDL_AUTO
+            - name: SPRING_JPA_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: SPRING_JPA_DATABASE
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: AUTH_URI
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.deployment.db.name }}
+spec:
+  serviceName: "postgres"
+  replicas: {{ .Values.deployment.db.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.db.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.db.name }}
+    spec:
+      containers:
+        - name: postgres
+          image: {{ .Values.deployment.db.image }}
+          ports:
+            - containerPort: {{ .Values.deployment.db.port }}
+              name: postgredb
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: DATABASE_NAME
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SPRING_DATASOURCE_PASSWORD
+          volumeMounts:
+            - name: postgredb
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+  volumeClaimTemplates:
+    - metadata:
+        name: postgredb
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: standard
+        resources:
+          requests:
+            storage: 1Gi

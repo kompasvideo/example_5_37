@@ -1,0 +1,36 @@
+config:
+  name: billing-configmap
+  port: 9000
+  database: postgresql
+  ddl: create
+  driver: org.postgresql.Driver
+secret:
+    name: billing-secret
+deployment:
+  app:
+    name: billing
+    type: NodePort
+    image: andrey1andrey/billing-service:latest
+    port: 9000
+    sport: "9000"
+    replicas: 1
+    uri: "billing-service"
+  db:
+    name: billing-postgresql
+    type: NodePort
+    image: postgres:latest
+    port: 5432
+    replicas: 1
+service:
+  app:
+    name: billing
+    type: NodePort
+    protocol: TCP
+    port: 9000
+  db:
+    name: billing-postgresql
+    type: NodePort
+    dbname: db
+    host: "billing-postgresql"
+    port: 5432
+    sport: "5432"
