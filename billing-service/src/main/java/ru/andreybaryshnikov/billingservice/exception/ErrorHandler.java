@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleUnauthorizedException(final BadRequestException e) {
+    public String handleBadRequestException(final BadRequestException e) {
         return "BadRequestException";
     }
 }

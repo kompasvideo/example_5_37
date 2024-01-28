@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: delivery
+spec:
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - path: /delivery/reserve
+            pathType: Prefix
+            backend:
+              service:
+                name: delivery
+                port:
+                  number: 9000

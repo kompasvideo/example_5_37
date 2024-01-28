@@ -8,8 +8,6 @@ import ru.andreybaryshnikov.billingservice.model.MinusMoney;
 import ru.andreybaryshnikov.billingservice.model.PlusMoney;
 import ru.andreybaryshnikov.billingservice.service.BillingService;
 
-import java.math.BigDecimal;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -33,17 +31,17 @@ public class BillingController {
         return billingService.addMoney(xRequestId, id, money);
     }
 
-    @PostMapping("/sub")
-    public Account subMoney(@RequestHeader("X-Request-Id") String xRequestId,
-                            @RequestHeader("X-UserId") String xUserId,
-                            @RequestBody MinusMoney money) {
+    @PostMapping("/pay")
+    public Account pay(@RequestHeader("X-Request-Id") String xRequestId,
+                       @RequestHeader("X-UserId") String xUserId,
+                       @RequestBody MinusMoney money) {
         long id = Long.parseLong(xUserId);
-        log.info("--- billing minus");
+        log.info("--- billing pay");
         log.info("--- billing X-Request-Id - " + xRequestId);
         log.info("--- billing X-UserId - " + xUserId);
-        log.info("--- subMoney - " + money);
-        log.info("--- billing minus");
-        return billingService.subMoney(xRequestId, id, money);
+        log.info("--- payMoney - " + money);
+        log.info("--- billing pay");
+        return billingService.pay(xRequestId, id, money);
     }
 
     @GetMapping("/get")

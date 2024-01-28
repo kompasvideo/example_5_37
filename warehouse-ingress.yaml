@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: warehouse
+spec:
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - path: /warehouse/reserve
+            pathType: Prefix
+            backend:
+              service:
+                name: payment
+                port:
+                  number: 9000
+          - path: /warehouse/cancel
+            pathType: Prefix
+            backend:
+              service:
+                name: payment
+                port:
+                  number: 9000
+          - path: /warehouse/add
+            pathType: Prefix
+            backend:
+              service:
+                name: payment
+                port:
+                  number: 9000
+          - path: /warehouse/getProducts
+            pathType: Prefix
+            backend:
+              service:
+                name: payment
+                port:
+                  number: 9000
+          - path: /warehouse/getWarehouse
+            pathType: Prefix
+            backend:
+              service:
+                name: payment
+                port:
+                  number: 9000

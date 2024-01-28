@@ -46,7 +46,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public Account subMoney(String xRequestId, long userId, MinusMoney money) {
+    public Account pay(String xRequestId, long userId, MinusMoney money) {
         var accountOptional = billingRepository.findById(userId);
         if (accountOptional.isPresent()) {
             return updateAccount(xRequestId, userId, money.getMinus(), money.getTotal(), accountOptional.get(),

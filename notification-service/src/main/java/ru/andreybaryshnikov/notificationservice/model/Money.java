@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 public class Money {
     private LocalDateTime dateTime;
     private String operation;
-    private BigDecimal count;
-    private BigDecimal total;
+    private double count;
+    private double total;
 }

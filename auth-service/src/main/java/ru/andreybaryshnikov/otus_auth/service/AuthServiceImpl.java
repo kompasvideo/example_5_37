@@ -38,7 +38,6 @@ public class AuthServiceImpl implements AuthService{
     @Value("${notification.uri}")
     private String urlNotific;
     private final long initMoney = 1000;
-
     private static final Map<String, User> sessions = new HashMap<>();
     private static final Random random = new Random();
 
@@ -86,7 +85,6 @@ public class AuthServiceImpl implements AuthService{
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
-
 
     private void addAccountToBillingAndAddMoneyToAccount(User user, String uuid) {
         log.info("-- 1 --");

@@ -19,7 +19,7 @@ public class Notification {
     private long userId;
     private LocalDateTime dateTime;
     private String operation;
-    private BigDecimal count;
-    private BigDecimal total;
+    private double count;
+    private double total;
     private String xRequestId;
 }

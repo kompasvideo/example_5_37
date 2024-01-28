@@ -14,7 +14,7 @@ spec:
                 name: billing
                 port:
                   number: 9000
-          - path: /billing/sub
+          - path: /billing/pay
             pathType: Prefix
             backend:
               service:

@@ -1,0 +1,36 @@
+config:
+  name: cart-configmap
+  port: 9000
+  database: postgresql
+  ddl: create
+  driver: org.postgresql.Driver
+secret:
+    name: cart-secret
+deployment:
+  app:
+    name: cart
+    type: NodePort
+    image: andrey1andrey/cart-service:latest
+    port: 9000
+    sport: "9000"
+    replicas: 1
+    uri: "cart-service"
+  db:
+    name: cart-postgresql
+    type: NodePort
+    image: postgres:latest
+    port: 5432
+    replicas: 1
+service:
+  app:
+    name: cart
+    type: NodePort
+    protocol: TCP
+    port: 9000
+  db:
+    name: cart-postgresql
+    type: NodePort
+    dbname: db
+    host: "cart-postgresql"
+    port: 5432
+    sport: "5432"

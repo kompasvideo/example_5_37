@@ -1,0 +1,36 @@
+config:
+  name: warehouse-configmap
+  port: 9000
+  database: postgresql
+  ddl: create
+  driver: org.postgresql.Driver
+secret:
+    name: warehouse-secret
+deployment:
+  app:
+    name: warehouse
+    type: NodePort
+    image: andrey1andrey/warehouse-service:latest
+    port: 9000
+    sport: "9000"
+    replicas: 1
+    uri: "warehouse-service"
+  db:
+    name: warehouse-postgresql
+    type: NodePort
+    image: postgres:latest
+    port: 5432
+    replicas: 1
+service:
+  app:
+    name: warehouse
+    type: NodePort
+    protocol: TCP
+    port: 9000
+  db:
+    name: warehouse-postgresql
+    type: NodePort
+    dbname: db
+    host: "warehouse-postgresql"
+    port: 5432
+    sport: "5432"

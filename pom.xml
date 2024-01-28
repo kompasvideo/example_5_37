@@ -9,6 +9,11 @@
         <module>order-service</module>
         <module>billing-service</module>
         <module>notification-service</module>
+        <module>payment-service</module>
+        <module>delivery-service</module>
+        <module>warehouse-service</module>
+        <module>catalog-service</module>
+        <module>cart-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

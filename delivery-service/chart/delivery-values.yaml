@@ -1,0 +1,36 @@
+config:
+  name: delivery-configmap
+  port: 9000
+  database: postgresql
+  ddl: create
+  driver: org.postgresql.Driver
+secret:
+    name: delivery-secret
+deployment:
+  app:
+    name: delivery
+    type: NodePort
+    image: andrey1andrey/delivery-service:latest
+    port: 9000
+    sport: "9000"
+    replicas: 1
+    uri: "delivery-service"
+  db:
+    name: delivery-postgresql
+    type: NodePort
+    image: postgres:latest
+    port: 5432
+    replicas: 1
+service:
+  app:
+    name: delivery
+    type: NodePort
+    protocol: TCP
+    port: 9000
+  db:
+    name: delivery-postgresql
+    type: NodePort
+    dbname: db
+    host: "delivery-postgresql"
+    port: 5432
+    sport: "5432"

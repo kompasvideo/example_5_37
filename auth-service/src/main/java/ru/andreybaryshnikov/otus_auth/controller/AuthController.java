@@ -2,16 +2,20 @@ package ru.andreybaryshnikov.otus_auth.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.andreybaryshnikov.otus_auth.model.LoginDto;
 import ru.andreybaryshnikov.otus_auth.model.User;
 import ru.andreybaryshnikov.otus_auth.model.UserDto;
+import ru.andreybaryshnikov.otus_auth.repository.UserRepository;
 import ru.andreybaryshnikov.otus_auth.service.AuthService;
 
 import java.util.Map;
+import java.util.Optional;
 
-@RestController
+@Slf4j
 @RequiredArgsConstructor
+@RestController
 public class AuthController {
     private final AuthService authService;
 

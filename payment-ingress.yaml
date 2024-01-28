@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: payment
+spec:
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - path: /payment/pay
+            pathType: Prefix
+            backend:
+              service:
+                name: payment
+                port:
+                  number: 9000

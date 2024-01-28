@@ -1,0 +1,36 @@
+config:
+  name: catalog-configmap
+  port: 9000
+  database: postgresql
+  ddl: create
+  driver: org.postgresql.Driver
+secret:
+    name: catalog-secret
+deployment:
+  app:
+    name: catalog
+    type: NodePort
+    image: andrey1andrey/catalog-service:latest
+    port: 9000
+    sport: "9000"
+    replicas: 1
+    uri: "catalog-service"
+  db:
+    name: catalog-postgresql
+    type: NodePort
+    image: postgres:latest
+    port: 5432
+    replicas: 1
+service:
+  app:
+    name: catalog
+    type: NodePort
+    protocol: TCP
+    port: 9000
+  db:
+    name: catalog-postgresql
+    type: NodePort
+    dbname: db
+    host: "catalog-postgresql"
+    port: 5432
+    sport: "5432"

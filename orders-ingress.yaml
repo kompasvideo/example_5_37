@@ -11,7 +11,56 @@ spec:
     - host: arch.homework
       http:
         paths:
-          - path: /order
+          - path: /order/create
+            pathType: Prefix
+            backend:
+              service:
+                name: order
+                port:
+                  number: 9000
+          - path: /order/chooseADeliveryLocation
+            pathType: Prefix
+            backend:
+              service:
+                name: order
+                port:
+                  number: 9000
+          - path: /order/chooseAPaymentMethod
+            pathType: Prefix
+            backend:
+              service:
+                name: order
+                port:
+                  number: 9000
+          - path: /order/chooseTheDeliveryTime
+            pathType: Prefix
+            backend:
+              service:
+                name: order
+                port:
+                  number: 9000
+          - path: /order/courierReserve
+            pathType: Prefix
+            backend:
+              service:
+                name: order
+                port:
+                  number: 9000
+          - path: /order/pay
+            pathType: Prefix
+            backend:
+              service:
+                name: order
+                port:
+                  number: 9000
+          - path: /order/get
+            pathType: Prefix
+            backend:
+              service:
+                name: order
+                port:
+                  number: 9000
+          - path: /order/clear
             pathType: Prefix
             backend:
               service:

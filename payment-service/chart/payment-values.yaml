@@ -1,0 +1,36 @@
+config:
+  name: payment-configmap
+  port: 9000
+  database: postgresql
+  ddl: create
+  driver: org.postgresql.Driver
+secret:
+    name: payment-secret
+deployment:
+  app:
+    name: payment
+    type: NodePort
+    image: andrey1andrey/payment-service:latest
+    port: 9000
+    sport: "9000"
+    replicas: 1
+    uri: "payment-service"
+  db:
+    name: payment-postgresql
+    type: NodePort
+    image: postgres:latest
+    port: 5432
+    replicas: 1
+service:
+  app:
+    name: payment
+    type: NodePort
+    protocol: TCP
+    port: 9000
+  db:
+    name: payment-postgresql
+    type: NodePort
+    dbname: db
+    host: "payment-postgresql"
+    port: 5432
+    sport: "5432"

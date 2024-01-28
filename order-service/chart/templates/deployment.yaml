@@ -55,16 +55,31 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: SPRING_DATASOURCE_PASSWORD
-            - name: BILLING_URI
+            - name: PAYMENT_URI
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Values.config.name }}
-                  key: BILLING_URI
+                  key: PAYMENT_URI
             - name: NOTIFICATION_URI
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Values.config.name }}
                   key: NOTIFICATION_URI
+            - name: WAREHOUSE_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: WAREHOUSE_URI
+            - name: BILLING_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: BILLING_URI
+            - name: DELIVERY_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: DELIVERY_URI
 
 ---
 apiVersion: apps/v1

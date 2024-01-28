@@ -29,10 +29,4 @@ public class UserProfile {
         this.avatar_uri = "";
         this.age = "0";
     }
-
-    public UserProfile(Long id, @NonNull String avatarUri, String age) {
-        this.id = id;
-        this.avatar_uri = avatarUri;
-        this.age = age;
-    }
 }

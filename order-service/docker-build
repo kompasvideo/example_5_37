@@ -3,7 +3,7 @@ minikube addons enable ingress
 minikube dashboard
 kubectl create ns auth
 kubectl config set-context --current --namespace=auth
-cd "C:\My\Обучение\Otus\MicrosArchit\03\22 Идемпотентость и коммутативность API в HTTP и очередях  ДЗ\otus_3_22\order-service"
+cd "C:\My\Обучение\Otus\MicrosArchit\04\32 Распределенные транзакции  ДЗ\example_4_32\order-service"
 
 docker build -t order-service .
 docker tag order-service andrey1andrey/order-service
