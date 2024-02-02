@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "76cd075f-42ea-4b16-9343-70681ad910a0",
-		"name": "Otus_3.22 new",
+		"name": "Otus_4.32",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18751342"
 	},
@@ -97,6 +97,216 @@
 			"response": []
 		},
 		{
+			"name": "catalog search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"))",
+							"    pm.expect(jsonData.last_name).to.eql(pm.collectionVariables.get(\"lastName\"))",
+							"    pm.expect(jsonData.first_name).to.eql(pm.collectionVariables.get(\"firstName\"))",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Request-Id",
+						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/search/product_search/?q=Трюковый самокат&limit=20",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"search",
+						"product_search",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Трюковый самокат"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "catalog get product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"))",
+							"    pm.expect(jsonData.last_name).to.eql(pm.collectionVariables.get(\"lastName\"))",
+							"    pm.expect(jsonData.first_name).to.eql(pm.collectionVariables.get(\"firstName\"))",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Request-Id",
+						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/products/3d3abd76-2afb-4bf5-8956-dd5018225106",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"3d3abd76-2afb-4bf5-8956-dd5018225106"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cart add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"))",
+							"    pm.expect(jsonData.last_name).to.eql(pm.collectionVariables.get(\"lastName\"))",
+							"    pm.expect(jsonData.first_name).to.eql(pm.collectionVariables.get(\"firstName\"))",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Request-Id",
+						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"1\",\r\n    \"quantity\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/cart/products/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cart",
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cart get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"))",
+							"    pm.expect(jsonData.last_name).to.eql(pm.collectionVariables.get(\"lastName\"))",
+							"    pm.expect(jsonData.first_name).to.eql(pm.collectionVariables.get(\"firstName\"))",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Request-Id",
+						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"1\",\r\n    \"quantity\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/cart/products/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cart",
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "создание заказа",
 			"event": [
 				{
@@ -134,7 +344,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"name1\",\n    \"count\": \"10\",\n    \"price\": 10\n}",
+					"raw": "{\n    \"productId\": \"1\",\n    \"count\": 10,\n    \"price\": 10\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -142,26 +352,27 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/order",
+					"raw": "{{baseUrl}}/order/create",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"order"
+						"order",
+						"create"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "дублирование заказа",
+			"name": "order выбрать место доставки",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 409\", function () {\r",
-							"    pm.response.to.have.status(409);\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -177,6 +388,9 @@
 					}
 				}
 			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
 			"request": {
 				"method": "POST",
 				"header": [
@@ -188,7 +402,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"name1\",\n    \"count\": \"10\",\n    \"price\": 10\n}",
+					"raw": "{\r\n    \"locality\": \"Москва\",\r\n    \"street\": \"Sovetskaya\",\r\n    \"houseNumber\": \"10\",\r\n    \"structure\": null,\r\n    \"flat\": 5,\r\n    \"entrance\": 1,\r\n    \"floor\": 2,\r\n    \"comment\": null\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -196,180 +410,314 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/order",
+					"raw": "{{baseUrl}}/order/chooseADeliveryLocation",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"order"
+						"order",
+						"chooseADeliveryLocation"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "получить заказ",
+			"name": "order выбрать способ оплаты",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
 							""
 						],
 						"type": "text/javascript"
 					}
 				}
 			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{IDtoken}}",
-						"type": "text"
-					},
 					{
 						"key": "X-Request-Id",
 						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16",
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": "\"PAYMENT\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{baseUrl}}/order?uuid=eafbadf7-c5ba-4fbe-a711-d6938071bb16",
+					"raw": "{{baseUrl}}/order/chooseAPaymentMethod",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"order"
-					],
-					"query": [
-						{
-							"key": "uuid",
-							"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16"
-						}
+						"order",
+						"chooseAPaymentMethod"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "получить несуществующий заказ",
+			"name": "order Выбрать время доставки",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 400\", function () {",
-							"    pm.response.to.have.status(400);",
-							"});",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
 							""
 						],
 						"type": "text/javascript"
 					}
 				}
 			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Request-Id",
+						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "2024-01-28T14:06:35.554997400",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/order/chooseTheDeliveryTime",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"order",
+						"chooseTheDeliveryTime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order Зарезервировать курьера",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Request-Id",
+						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/order/courierReserve",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"order",
+						"courierReserve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {}
+			},
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "X-Request-Id",
-						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb15",
+						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16",
+						"type": "text"
+					},
+					{
+						"key": "X-UserId",
+						"value": "1",
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{baseUrl}}/order?uuid=eafbadf7-c5ba-4fbe-a711-d6938071bb15",
+					"raw": "{{baseUrl}}/order/get",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"order"
-					],
-					"query": [
-						{
-							"key": "uuid",
-							"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb15"
-						}
+						"order",
+						"get"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "my проверить данные о пользователе 1",
+			"name": "order pay",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"test token data\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"))",
-							"    pm.expect(jsonData.last_name).to.eql(pm.collectionVariables.get(\"lastName\"))",
-							"    pm.expect(jsonData.first_name).to.eql(pm.collectionVariables.get(\"firstName\"))",
-							"});",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
 							""
 						],
 						"type": "text/javascript"
 					}
 				}
 			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
-						"key": "Authorization",
-						"value": "Bearer {{IDtoken}}",
+						"key": "X-Request-Id",
+						"value": "eafbadf7-c5ba-4fbe-a711-d6938071bb16",
+						"type": "text"
+					},
+					{
+						"key": "X-UserId",
+						"value": "1",
 						"type": "text"
 					}
 				],
-				"url": {
-					"raw": "{{baseUrl}}/auth",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"auth"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "my получить данные о пользователе 1",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"test token data\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"email\"))",
-							"    pm.expect(jsonData.last_name).to.eql(pm.collectionVariables.get(\"lastName\"))",
-							"    pm.expect(jsonData.first_name).to.eql(pm.collectionVariables.get(\"firstName\"))",
-							"});",
-							""
-						],
-						"type": "text/javascript"
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
 					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
+				},
 				"url": {
-					"raw": "{{baseUrl}}/users/me",
+					"raw": "{{baseUrl}}/order/pay",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"users",
-						"me"
+						"order",
+						"pay"
 					]
 				}
 			},
