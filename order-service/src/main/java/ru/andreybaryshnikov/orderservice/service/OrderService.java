@@ -20,7 +20,7 @@ public interface OrderService {
 
     boolean payAndSendMessage(String xRequestId, String xUserId);
 
-    boolean courierReserve(String xRequestId, String xUserId);
+    Order courierReserve(String xRequestId, String xUserId);
 
     boolean clear(UUID uuid);
 }

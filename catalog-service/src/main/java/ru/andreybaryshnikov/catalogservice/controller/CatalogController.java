@@ -30,8 +30,7 @@ public class CatalogController {
                                            @RequestHeader("X-UserId") String xUserId,
                                            @RequestParam("q") String productName,
                                            @RequestParam int limit) {
-        List<ProductDto> productDtos = catalogService.productSearch(xRequestId, xUserId, productName, limit);
-        return productDtos;
+        return catalogService.productSearch(xRequestId, xUserId, productName, limit);
     }
 
     /**
@@ -45,7 +44,6 @@ public class CatalogController {
     public ProductDto getProduct(@RequestHeader("X-Request-Id") String xRequestId,
                                     @RequestHeader("X-UserId") String xUserId,
                                     @PathVariable("id") String productId) {
-        ProductDto product = catalogService.getProduct(xRequestId, xUserId, productId);
-        return product;
+        return catalogService.getProduct(xRequestId, xUserId, productId);
     }
 }

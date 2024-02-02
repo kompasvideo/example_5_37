@@ -20,6 +20,11 @@ public class WarehouseController {
         warehouseService.init();
     }
 
+    /**
+     * добавление товара
+     * @param xRequestId
+     * @param productDto
+     */
     @PostMapping("/add")
     public void add(@RequestHeader("X-Request-Id") String xRequestId,
                            @RequestBody ProductDto productDto) {
@@ -28,6 +33,13 @@ public class WarehouseController {
         log.info("--- 2 add ---");
     }
 
+    /**
+     * резервирование товара
+     * @param xRequestId
+     * @param xUserId
+     * @param productDto
+     * @return
+     */
     @PostMapping("/reserve")
     public boolean reserve(@RequestHeader("X-Request-Id") String xRequestId,
                        @RequestHeader("X-UserId") String xUserId,
@@ -38,12 +50,32 @@ public class WarehouseController {
         return result;
     }
 
+    /**
+     * произошла оплата товара
+     * @param xRequestId
+     * @param xUserId
+     * @return
+     */
+    @PostMapping("/pay")
+    public boolean pay(@RequestHeader("X-Request-Id") String xRequestId,
+                           @RequestHeader("X-UserId") String xUserId) {
+        log.info("--- 1 pay ---");
+        boolean result  = warehouseService.pay(xRequestId, xUserId);
+        log.info("--- 2 pay ---");
+        return result;
+    }
+
+    /**
+     * отмена резервирования
+     * @param xRequestId
+     * @param xUserId
+     * @return
+     */
     @PostMapping("/cancel")
     public boolean cancel(@RequestHeader("X-Request-Id") String xRequestId,
-                           @RequestHeader("X-UserId") String xUserId,
-                           @RequestBody ProductDto productDto) {
+                           @RequestHeader("X-UserId") String xUserId) {
         log.info("--- 1 cancel ---");
-        boolean result  = warehouseService.cancel(xRequestId, xUserId, productDto);
+        boolean result  = warehouseService.cancel(xRequestId, xUserId);
         log.info("--- 2 cancel ---");
         return result;
     }

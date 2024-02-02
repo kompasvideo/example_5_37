@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @Table(name = "account")
 public class Account {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long  id;
     private double balance;
     private UUID xRequestId;

@@ -70,6 +70,16 @@ spec:
                 configMapKeyRef:
                   name: {{ .Values.config.name }}
                   key: WAREHOUSE_URI
+            - name: WAREHOUSE_URI_PAY
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: WAREHOUSE_URI_PAY
+            - name: WAREHOUSE_URI_CANCEL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: WAREHOUSE_URI_CANCEL
             - name: BILLING_URI
               valueFrom:
                 configMapKeyRef:
@@ -80,6 +90,11 @@ spec:
                 configMapKeyRef:
                   name: {{ .Values.config.name }}
                   key: DELIVERY_URI
+            - name: DELIVERY_URI_CANCEL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.config.name }}
+                  key: DELIVERY_URI_CANCEL
 
 ---
 apiVersion: apps/v1

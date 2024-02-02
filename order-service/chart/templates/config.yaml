@@ -25,5 +25,8 @@ data:
   PAYMENT_URI: http://payment.auth:9000/payment/pay
   NOTIFICATION_URI: http://notification.auth:9000/notification/send
   WAREHOUSE_URI: http://warehouse.auth:9000/warehouse/reserve
+  WAREHOUSE_URI_PAY: http://warehouse.auth:9000/warehouse/pay
+  WAREHOUSE_URI_CANCEL: http://warehouse.auth:9000/warehouse/cancel
   BILLING_URI: http://billing.auth:9000/billing/sub
   DELIVERY_URI: http://delivery.auth:9000/delivery/reserve
+  DELIVERY_URI_CANCEL: http://delivery.auth:9000/delivery/cancel

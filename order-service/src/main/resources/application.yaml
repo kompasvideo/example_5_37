@@ -23,7 +23,10 @@ notification:
   uri: ${NOTIFICATION_URI}
 warehouse:
   uri: ${WAREHOUSE_URI}
+  uriPay: ${WAREHOUSE_URI_PAY}
+  uriCancel: ${WAREHOUSE_URI_CANCEL}
 billing:
   uri: ${BILLING_URI}
 delivery:
   uri: ${DELIVERY_URI}
+  uriCancel: ${DELIVERY_URI_CANCEL}

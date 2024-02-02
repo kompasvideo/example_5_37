@@ -5,12 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.andreybaryshnikov.warehouseservice.model.Product;
+import ru.andreybaryshnikov.warehouseservice.model.ReserveProduct;
 import ru.andreybaryshnikov.warehouseservice.model.Warehouse;
 import ru.andreybaryshnikov.warehouseservice.model.dto.ProductDto;
 import ru.andreybaryshnikov.warehouseservice.repository.ProductRepository;
+import ru.andreybaryshnikov.warehouseservice.repository.ReserveRepository;
 import ru.andreybaryshnikov.warehouseservice.repository.WarehouseRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +24,9 @@ public class WarehouseServiceImpl implements WarehouseService {
     private final ModelMapper modelMapper;
     private final WarehouseRepository warehouseRepository;
     private final ProductRepository productRepository;
+    private final ReserveRepository reserveRepository;
     private final String OPERATION_MINUS = "-";
+    private final String OPERATION_RESERVE = "RESERVE";
     private final String OPERATION_CANCEL = "CANCEL";
 
     @Override
@@ -46,7 +51,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             log.info("--- 3 reverse ---");
             saveWarehouseLogs(xRequestId, xUserId, productDto);
             log.info("--- 4 reverse ---");
-            saveModifyProductCount(xRequestId, productDto, productOp);
+            reserveProduct(xRequestId, xUserId, productDto);
             log.info("--- 5 reverse ---");
             return true;
         }
@@ -54,38 +59,27 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public boolean cancel(String xRequestId, String xUserId, ProductDto productDto) {
+    public boolean cancel(String xRequestId, String xUserId) {
         log.info("--- 1 cancel ---");
         log.info("--- 2 cancel --- xRequestId - " + xRequestId);
-        log.info("--- 2 cancel --- xUserId - " + xUserId);
-        log.info("--- 2 cancel --- productDto - " + productDto);
-        Optional<Warehouse> warehouseOp = warehouseRepository.findById(xRequestId);
-        if (warehouseOp.isPresent() && productDto.getProductId().equals(warehouseOp.get().getProductId())
-                && warehouseOp.get().getOperation().equals(OPERATION_MINUS)) {
-            log.info("--- 3 cancel ---");
-            Warehouse warehouse = warehouseOp.get();
-            log.info("--- 4 cancel --- warehouse - " + warehouse);
-            int count = warehouse.getCount();
-            log.info("--- 5 cancel --- count - " + count);
-            List<Product> productList = productRepository.findAllByRequestId(xRequestId);
-            log.info("--- 6 cancel --- productOp - " + productList);
-            if(!productList.isEmpty()) {
-                log.info("--- 7 cancel ---");
-                Product product = productList.get(0);
-                log.info("--- 8 cancel --- product - " + product);
-                product.setCount(product.getCount() + count);
-                log.info("--- 9 cancel --- product - " + product);
-                productRepository.save(product);
-                log.info("--- 10 cancel ---");
-                saveNewWarehouseLogs(xRequestId, xUserId, productDto, product.getCount() + count);
-                log.info("--- 11 cancel ---");
-                return true;
-            }
-            log.info("--- 12 cancel ---");
+        log.info("--- 3 cancel --- xUserId - " + xUserId);
+        List<ReserveProduct> reserveProducts = reserveRepository.findAllByRequestId(xRequestId);
+        if (reserveProducts.isEmpty()) {
+            log.info("--- 4 cancel ---");
             return false;
         }
-        log.info("--- 13 cancel ---");
-        return false;
+        log.info("--- 5 cancel ---");
+        List<String> produuctIds = new ArrayList<>();
+        log.info("--- 6 cancel ---");
+        for (var reserverProduct : reserveProducts) {
+            produuctIds.add(reserverProduct.getProductId());
+            saveWarehouseLogs(xRequestId, xUserId, reserverProduct);
+        }
+        log.info("--- 7 cancel --- listSize - " + produuctIds.size());
+        reserveRepository.deleteAllByIdInBatch(produuctIds);
+        log.info("--- 8 cancel ---");
+        log.info("--- 8 cancel ---");
+        return true;
     }
 
     @Override
@@ -126,29 +120,80 @@ public class WarehouseServiceImpl implements WarehouseService {
         return warehouseList;
     }
 
-    private void saveNewWarehouseLogs(String xRequestId, String xUserId, ProductDto productDto, int count) {
+
+    @Override
+    public boolean pay(String xRequestId, String xUserId) {
+        log.info("--- pay 1 --- xRequestId - " + xRequestId);
+        log.info("--- pay 2 --- xUserId - " + xUserId);
+        ReserveProduct reserveProduct = getReserveProduct(xRequestId);
+        log.info("--- pay 3 --- reserveProduct - " + reserveProduct);
+        Product product = getProduct(reserveProduct.getProductId());
+        log.info("--- pay 4 --- product - " + product);
+        if (product.getCount() < reserveProduct.getCount()) {
+            log.info("--- pay 5 ---");
+            return false;
+        }
+        log.info("--- pay 6 ---");
+        product.setCount(product.getCount() - reserveProduct.getCount());
+        log.info("--- pay 7 --- product - " + product);
+        productRepository.save(product);
+        log.info("--- pay 8 ---");
+        reserveRepository.deleteById(xRequestId);
+        log.info("--- pay 9 ---");
+        saveWarehouseLogs(xRequestId, xUserId, product);
+        return true;
+    }
+
+    private ReserveProduct getReserveProduct(String xRequestId) {
+        log.info("--- getReserveProduct 1 --- xRequestId - " + xRequestId);
+        List<ReserveProduct> reserveProductOp = reserveRepository.findAllByRequestId(xRequestId);
+        log.info("--- getReserveProduct 2 ---");
+        if (reserveProductOp.isEmpty()) {
+            log.info("--- getReserveProduct 3 ---");
+            throw new RuntimeException();
+        }
+        log.info("--- getReserveProduct 4 --- reserveProduct - " + reserveProductOp.get(0));
+        return reserveProductOp.get(0);
+    }
+
+    private Product getProduct(String productId) {
+        log.info("--- getProduct 1 ---");
+        Optional<Product> productOp = productRepository.findById(productId);
+        log.info("--- getProduct 2 ---");
+        if (productOp.isEmpty()) {
+            log.info("--- getProduct 3 ---");
+            throw new RuntimeException();
+        }
+        log.info("--- getProduct 4 --- product - " + productOp.get());
+        return productOp.get();
+    }
+
+    private void reserveProduct(String xRequestId, String xUserId, ProductDto productDto) {
+        log.info("--- reserveProduct 1 --- xRequestId - " + xRequestId);
+        log.info("--- reserveProduct 2 --- xUserId - " + xUserId);
+        log.info("--- reserveProduct 3 --- productDto - " + productDto);
+        ReserveProduct reserveProduct = modelMapper.map(productDto, ReserveProduct.class);
+        log.info("--- reserveProduct 4 --- reserveProduct - " + reserveProduct);
+        reserveProduct.setUserId(Long.parseLong(xUserId));
+        reserveProduct.setRequestId(xRequestId);
+        reserveProduct.setDateTime(LocalDateTime.now());
+        log.info("--- reserveProduct 5 --- reserveProduct - " + reserveProduct);
+        reserveRepository.save(reserveProduct);
+        log.info("--- reserveProduct 6 ---");
+    }
+
+    private void saveWarehouseLogs(String xRequestId, String xUserId, Product product) {
         log.info("--- 1 saveNewWarehouseLogs ---");
         Warehouse warehouseNew = new Warehouse();
-        warehouseNew.setProductId(productDto.getProductId());
+        warehouseNew.setProductId(product.getProductId());
         warehouseNew.setXRequestId(xRequestId);
         warehouseNew.setXUserId(Long.parseLong(xUserId));
-        warehouseNew.setCount(count);
-        warehouseNew.setOperation(OPERATION_CANCEL);
+        warehouseNew.setCount(product.getCount());
+        warehouseNew.setOperation(OPERATION_MINUS);
         warehouseNew.setDateTime(LocalDateTime.now());
         log.info("--- 2 saveNewWarehouseLogs --- warehouseNew - " + warehouseNew);
         warehouseRepository.save(warehouseNew);
         log.info("--- 3 saveNewWarehouseLogs ---");
-    }
-
-    private void saveModifyProductCount(String xRequestId, ProductDto productDto, Optional<Product> productOp) {
-        log.info("--- 1 saveModifyProductCount ---");
-        Product product = productOp.get();
-        log.info("--- 2 saveModifyProductCount --- product - " + product);
-        product.setCount(product.getCount() - productDto.getCount());
-        product.setRequestId(xRequestId);
-        log.info("--- 3 saveModifyProductCount --- product - " + product);
-        productRepository.save(product);
-        log.info("--- 4 saveModifyProductCount ---");
     }
 
     private void saveWarehouseLogs(String xRequestId, String xUserId, ProductDto productDto) {
@@ -159,7 +204,23 @@ public class WarehouseServiceImpl implements WarehouseService {
         warehouse.setXUserId(Long.parseLong(xUserId));
         warehouse.setProductId(productDto.getProductId());
         warehouse.setCount(productDto.getCount());
-        warehouse.setOperation(OPERATION_MINUS);
+        warehouse.setOperation(OPERATION_RESERVE);
+        warehouse.setDateTime(LocalDateTime.now());
+        log.info("--- 3 saveWarehouseLogs ---");
+        log.info("--- 4 saveWarehouseLogs --- warehouse - " + warehouse);
+        warehouseRepository.save(warehouse);
+        log.info("--- 5 saveWarehouseLogs ---");
+    }
+
+    private void saveWarehouseLogs(String xRequestId, String xUserId, ReserveProduct reserverProduct) {
+        log.info("--- 1 saveWarehouseLogs ---");
+        Warehouse warehouse = new Warehouse();
+        log.info("--- 2 saveWarehouseLogs ---");
+        warehouse.setXRequestId(xRequestId);
+        warehouse.setXUserId(Long.parseLong(xUserId));
+        warehouse.setProductId(reserverProduct.getProductId());
+        warehouse.setCount(reserverProduct.getCount());
+        warehouse.setOperation(OPERATION_CANCEL);
         warehouse.setDateTime(LocalDateTime.now());
         log.info("--- 3 saveWarehouseLogs ---");
         log.info("--- 4 saveWarehouseLogs --- warehouse - " + warehouse);

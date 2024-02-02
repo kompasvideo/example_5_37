@@ -13,10 +13,8 @@ import java.util.UUID;
 @Table(name = "orders")
 public class Order {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private UUID id;
-    private String xRequestId;
     private long userId;
     private String productId;
     private int count;
@@ -32,6 +30,9 @@ public class Order {
     private byte entrance; // подъезд
     private byte floor;    // этаж
     private String comment;  // комментарий
+
+    private boolean reserveProduct; // товар зарезервирован
+    private boolean reserveCourier; // курьер зарезервирован
 
     public double calculatePayMoney() {
         return count * price;
