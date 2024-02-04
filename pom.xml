@@ -22,10 +22,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.andreybaryshnikov</groupId>
-    <artifactId>otus_4_32</artifactId>
+    <artifactId>otus_5_37</artifactId>
     <version>0.0.1</version>
-    <name>otus_4_32</name>
-    <description>otus_4_32</description>
+    <name>otus_5_37</name>
+    <description>otus_5_37</description>
     <properties>
         <java.version>17</java.version>
     </properties>

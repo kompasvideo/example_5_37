@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>ru.andreybaryshnikov</groupId>
-        <artifactId>otus_4_32</artifactId>
+        <artifactId>otus_5_37</artifactId>
         <version>0.0.1</version>
     </parent>
 
     <artifactId>warehouse-service</artifactId>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

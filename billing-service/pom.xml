@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>ru.andreybaryshnikov</groupId>
-        <artifactId>otus_4_32</artifactId>
+        <artifactId>otus_5_37</artifactId>
         <version>0.0.1</version>
     </parent>
 

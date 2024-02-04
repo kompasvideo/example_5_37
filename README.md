@@ -1,3 +1,5 @@
+helm install kafka oci://registry-1.docker.io/bitnamicharts/kafka --set listeners.client.protocol=PLAINTEXT --set listeners.controller.protocol=PLAINTEXT --set listeners.interbroker.protocol=PLAINTEXT --set listeners.external.protocol=PLAINTEXT
+
 Паттерн - Idempotent reciever
 
 
