@@ -10,4 +10,6 @@ public interface BillingService {
     Account pay(String xRequestId, long userId, MinusMoney money);
 
     double getBalance(String xRequestId, long id);
+
+    Account withdraw(String xRequestId, long id, MinusMoney money);
 }

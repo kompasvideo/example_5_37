@@ -35,11 +35,11 @@ public class BillingController {
     public Account pay(@RequestHeader("X-Request-Id") String xRequestId,
                        @RequestHeader("X-UserId") String xUserId,
                        @RequestBody MinusMoney money) {
-        long id = Long.parseLong(xUserId);
         log.info("--- billing pay");
         log.info("--- billing X-Request-Id - " + xRequestId);
         log.info("--- billing X-UserId - " + xUserId);
         log.info("--- payMoney - " + money);
+        long id = Long.parseLong(xUserId);
         log.info("--- billing pay");
         return billingService.pay(xRequestId, id, money);
     }
@@ -47,12 +47,24 @@ public class BillingController {
     @GetMapping("/get")
     public double getBalance(@RequestHeader("X-Request-Id") String xRequestId,
                             @RequestHeader("X-UserId") String xUserId){
-        long id = Long.parseLong(xUserId);
         log.info("--- getBalance");
         log.info("--- getBalance X-Request-Id - " + xRequestId);
         log.info("--- getBalance X-UserId - " + xUserId);
+        long id = Long.parseLong(xUserId);
         log.info("--- getBalance id - " + id);
-        log.info("--- getBalance");
         return billingService.getBalance(xRequestId, id);
+    }
+
+    @GetMapping("/withdraw")
+    public Account withdraw(@RequestHeader("X-Request-Id") String xRequestId,
+                           @RequestHeader("X-UserId") String xUserId,
+                           @RequestBody MinusMoney money){
+        log.info("--- withdraw");
+        log.info("--- withdraw X-Request-Id - " + xRequestId);
+        log.info("--- withdraw X-UserId - " + xUserId);
+        log.info("--- withdraw money - " + money);
+        long id = Long.parseLong(xUserId);
+        log.info("--- withdraw id - " + id);
+        return billingService.withdraw(xRequestId, id, money);
     }
 }

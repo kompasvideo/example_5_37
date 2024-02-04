@@ -18,6 +18,13 @@ spec:
                 name: billing
                 port:
                   number: 9000
+          - path: /billing/withdraw
+            pathType: Prefix
+            backend:
+              service:
+                name: billing
+                port:
+                  number: 9000
           - path: /billing/pay
             pathType: Prefix
             backend:
