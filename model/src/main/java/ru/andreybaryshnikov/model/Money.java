@@ -1,10 +1,11 @@
-package ru.andreybaryshnikov.notificationservice.model;
+package ru.andreybaryshnikov.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @Data
 public class Money {
     private LocalDateTime dateTime;

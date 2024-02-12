@@ -10,6 +10,8 @@ import jakarta.persistence.*;
 @ToString
 @Builder
 @Entity
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "user_profile")
 public class UserProfile {
     @Id

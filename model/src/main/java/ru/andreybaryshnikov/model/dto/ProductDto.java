@@ -1,7 +1,9 @@
-package ru.andreybaryshnikov.warehouseservice.model.dto;
+package ru.andreybaryshnikov.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@AllArgsConstructor
 @Data
 public class ProductDto {
     private String productId;

@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import ru.andreybaryshnikov.model.Money;
 import ru.andreybaryshnikov.orderservice.model.dto.OrderDto;
 import ru.andreybaryshnikov.orderservice.exception.BadRequestException;
 import ru.andreybaryshnikov.orderservice.exception.TheProductIsOutOfStock;
-import ru.andreybaryshnikov.orderservice.model.Money;
 import ru.andreybaryshnikov.orderservice.model.Order;
 import ru.andreybaryshnikov.orderservice.model.PaymentMethod;
 import ru.andreybaryshnikov.orderservice.model.dto.DeliveryLocationDto;
 import ru.andreybaryshnikov.orderservice.model.dto.PayMoneyDto;
-import ru.andreybaryshnikov.orderservice.model.dto.ProductDto;
+import ru.andreybaryshnikov.model.dto.ProductDto;
 import ru.andreybaryshnikov.orderservice.repository.OrderRepository;
 
 import java.net.MalformedURLException;

@@ -1,4 +1,4 @@
-package ru.andreybaryshnikov.otus_auth.model;
+package ru.andreybaryshnikov.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
