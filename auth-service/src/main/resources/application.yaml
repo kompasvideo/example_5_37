@@ -17,6 +17,36 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: INFO
+          JpaTransactionManager: DEBUG
+        transaction: INFO
+        transaction.interceptor: TRACE
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+      slo:
+        http.server.requests: 10ms, 50ms, 100ms, 200ms, 300ms, 400ms, 500ms, 600ms, 800ms
+    export:
+      prometheus:
+        enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoint:
+    health:
+      show-details: always
 billing:
   uri: ${BILLING_URI}
 notification:
