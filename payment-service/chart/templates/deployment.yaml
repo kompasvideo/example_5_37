@@ -55,11 +55,6 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: SPRING_DATASOURCE_PASSWORD
-#            - name: BILLING_URI
-#              valueFrom:
-#                configMapKeyRef:
-#                  name: {{ .Values.config.name }}
-#                  key: BILLING_URI
 
 ---
 apiVersion: apps/v1
@@ -112,3 +107,24 @@ spec:
         resources:
           requests:
             storage: 1Gi
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Values.monitor.app.name }}
+  labels:
+    app: {{ .Values.monitor.app.name }}
+spec:
+  endpoints:
+    - port: metrics
+      scrapeTimeout: 30s
+      path: /actuator/prometheus
+      honorLabels: true
+      scheme: http
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.app.name }}

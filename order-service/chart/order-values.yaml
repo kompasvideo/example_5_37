@@ -34,3 +34,6 @@ service:
     host: "order-postgresql"
     port: 5432
     sport: "5432"
+monitor:
+  app:
+    name: order-monitor
