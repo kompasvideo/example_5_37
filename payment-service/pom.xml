@@ -11,6 +11,8 @@
     </parent>
 
     <artifactId>payment-service</artifactId>
+    <groupId>ru.andreybaryshnikov.im</groupId>
+    <version>latest</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -66,4 +68,13 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -17,6 +17,15 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+
+#  kafka:
+#    producer:
+#      bootstrap-servers: "127.0.0.1:9092"
+#      client-id: "demo-producer"
+#application:
+#  kafka:
+#    topic: "demo-topic"
+
 logging:
   level:
     org:
@@ -51,6 +60,8 @@ payment:
   uri: ${PAYMENT_URI}
 notification:
   uri: ${NOTIFICATION_URI}
+  partitions: 3
+  topicName: "NotificafionTopic"
 warehouse:
   uri: ${WAREHOUSE_URI}
   uriPay: ${WAREHOUSE_URI_PAY}
@@ -60,3 +71,5 @@ billing:
 delivery:
   uri: ${DELIVERY_URI}
   uriCancel: ${DELIVERY_URI_CANCEL}
+kafka:
+  server: "localhost:9091"

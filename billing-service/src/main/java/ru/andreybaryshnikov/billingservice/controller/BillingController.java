@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.andreybaryshnikov.billingservice.model.Account;
 import ru.andreybaryshnikov.billingservice.model.MinusMoney;
+import ru.andreybaryshnikov.billingservice.model.PlusMoney;
 import ru.andreybaryshnikov.billingservice.service.BillingService;
-import ru.andreybaryshnikov.model.PlusMoney;
 
 @Slf4j
 @RestController

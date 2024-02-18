@@ -1,9 +1,8 @@
 package ru.andreybaryshnikov.warehouseservice.service;
 
-
-import ru.andreybaryshnikov.model.dto.ProductDto;
 import ru.andreybaryshnikov.warehouseservice.model.Product;
 import ru.andreybaryshnikov.warehouseservice.model.Warehouse;
+import ru.andreybaryshnikov.warehouseservice.model.dto.ProductDto;
 
 import java.util.*;
 

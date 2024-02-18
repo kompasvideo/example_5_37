@@ -1,8 +1,7 @@
 package ru.andreybaryshnikov.notificationservice.service;
 
-import ru.andreybaryshnikov.model.Money;
 import ru.andreybaryshnikov.notificationservice.model.Notification;
-
+import ru.andreybaryshnikov.notificationservice.model.Money;
 import java.util.List;
 
 public interface NotificationService {

@@ -11,6 +11,8 @@
     </parent>
 
     <artifactId>warehouse-service</artifactId>
+    <groupId>ru.andreybaryshnikov.im</groupId>
+    <version>latest</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -65,11 +67,14 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-        <dependency>
-            <groupId>ru.andreybaryshnikov.model</groupId>
-            <artifactId>model</artifactId>
-            <version>0.0.1</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

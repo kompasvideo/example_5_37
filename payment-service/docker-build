@@ -3,7 +3,7 @@ minikube addons enable ingress
 minikube dashboard
 kubectl create ns auth
 kubectl config set-context --current --namespace=auth
-cd "C:\My\Обучение\Otus\MicrosArchit\04\32 Распределенные транзакции  ДЗ\example_4_32\payment-service"
+cd "C:\My\Обучение\Otus\MicrosArchit\05\37\example_5_37\payment-service"
 
 docker build -t payment-service .
 docker tag payment-service andrey1andrey/payment-service

@@ -47,3 +47,8 @@ management:
   endpoint:
     health:
       show-details: always
+kafka:
+#  server: "http://my-prometheus-prometheus-pushgateway.monitoring.svc.cluster.local:9091"
+  server: "http://kafka-controller-headless.auth:9092"
+appl:
+  groupid: notificafion

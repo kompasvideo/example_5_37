@@ -1,4 +1,4 @@
-package ru.andreybaryshnikov.model.dto;
+package ru.andreybaryshnikov.warehouseservice.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

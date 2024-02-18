@@ -6,11 +6,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.2.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <groupId>ru.andreybaryshnikov.im</groupId>
     <artifactId>billing-service</artifactId>
+    <version>latest</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -65,10 +67,14 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-        <dependency>
-            <groupId>ru.andreybaryshnikov.model</groupId>
-            <artifactId>model</artifactId>
-            <version>0.0.1</version>
-        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

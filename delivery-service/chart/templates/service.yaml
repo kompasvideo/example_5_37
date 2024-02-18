@@ -21,5 +21,6 @@ spec:
     app: {{ .Values.deployment.app.name }}
   ports:
     - protocol: {{ .Values.service.app.protocol }}
+      name: {{ .Values.service.app.name }}
       port: {{ .Values.service.app.port }}
       targetPort: {{ .Values.service.app.port }}

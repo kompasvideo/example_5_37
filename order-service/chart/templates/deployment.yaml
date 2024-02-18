@@ -157,7 +157,7 @@ metadata:
     app: {{ .Values.monitor.app.name }}
 spec:
   endpoints:
-    - port: metrics
+    - port: {{ .Values.service.app.name }}
       scrapeTimeout: 30s
       path: /actuator/prometheus
       honorLabels: true

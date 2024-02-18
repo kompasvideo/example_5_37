@@ -2,7 +2,7 @@ package ru.andreybaryshnikov.billingservice.service;
 
 import ru.andreybaryshnikov.billingservice.model.Account;
 import ru.andreybaryshnikov.billingservice.model.MinusMoney;
-import ru.andreybaryshnikov.model.PlusMoney;
+import ru.andreybaryshnikov.billingservice.model.PlusMoney;
 
 public interface BillingService {
     Account addMoney(String xRequestId, long userId, PlusMoney money);

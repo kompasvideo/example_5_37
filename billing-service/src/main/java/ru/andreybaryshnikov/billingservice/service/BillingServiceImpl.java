@@ -6,8 +6,9 @@ import org.springframework.stereotype.Service;
 import ru.andreybaryshnikov.billingservice.exception.BadRequestException;
 import ru.andreybaryshnikov.billingservice.model.Account;
 import ru.andreybaryshnikov.billingservice.model.MinusMoney;
+import ru.andreybaryshnikov.billingservice.model.PlusMoney;
 import ru.andreybaryshnikov.billingservice.repository.BillingRepository;
-import ru.andreybaryshnikov.model.PlusMoney;
+
 
 import java.util.UUID;
 

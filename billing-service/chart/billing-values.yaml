@@ -10,7 +10,7 @@ deployment:
   app:
     name: billing
     type: NodePort
-    image: andrey1andrey/billing-service:latest
+    image: andrey1andrey/billing-service2:latest
     port: 9000
     sport: "9000"
     replicas: 1

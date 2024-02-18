@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import ru.andreybaryshnikov.model.Money;
-import ru.andreybaryshnikov.model.PlusMoney;
 import ru.andreybaryshnikov.otus_auth.exception.UnauthorizedException;
 import ru.andreybaryshnikov.otus_auth.model.*;
 import ru.andreybaryshnikov.otus_auth.repository.UserRepository;

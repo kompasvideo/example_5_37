@@ -14,7 +14,6 @@
         <module>warehouse-service</module>
         <module>catalog-service</module>
         <module>cart-service</module>
-        <module>model</module>
     </modules>
     <groupId>ru.andreybaryshnikov</groupId>
     <artifactId>otus_5_37</artifactId>

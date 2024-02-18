@@ -1,5 +1,6 @@
 package ru.andreybaryshnikov.orderservice.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -7,38 +8,46 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import ru.andreybaryshnikov.model.Money;
-import ru.andreybaryshnikov.orderservice.model.dto.OrderDto;
+import ru.andreybaryshnikov.orderservice.model.Money;
+import ru.andreybaryshnikov.orderservice.model.dto.*;
 import ru.andreybaryshnikov.orderservice.exception.BadRequestException;
 import ru.andreybaryshnikov.orderservice.exception.TheProductIsOutOfStock;
 import ru.andreybaryshnikov.orderservice.model.Order;
 import ru.andreybaryshnikov.orderservice.model.PaymentMethod;
-import ru.andreybaryshnikov.orderservice.model.dto.DeliveryLocationDto;
-import ru.andreybaryshnikov.orderservice.model.dto.PayMoneyDto;
-import ru.andreybaryshnikov.model.dto.ProductDto;
 import ru.andreybaryshnikov.orderservice.repository.OrderRepository;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
+    private final KafkaTemplate<String, String> kafkaTemplateString;
+    private final Consumer<String> sendAsk;
+
     private final ModelMapper mapper;
     private final OrderRepository orderRepository;
     @Value("${payment.uri}")
     private String url;
     @Value("${notification.uri}")
     private String urlNotific;
+    @Value("${notification.partitions}")
+    private int notificPartitions;
+    @Value("${notification.topicName}")
+    private String notificTopic;
     @Value("${warehouse.uri}")
     private String urlWarehouseReserve;
     @Value("${warehouse.uriPay}")
@@ -51,9 +60,19 @@ public class OrderServiceImpl implements OrderService {
     private String urlDelivery;
     @Value("${delivery.uriCancel}")
     private String urlDeliveryCancel;
+
     private final String OperationNoPay = "no pay";
     private final String OperationPay = "- pay";
 
+    public  OrderServiceImpl(KafkaTemplate<String, String> kafkaTemplateString,
+                             Consumer<String> sendAsk,
+                             ModelMapper mapper,
+                             OrderRepository orderRepository){
+        this.sendAsk = sendAsk;
+        this.kafkaTemplateString = kafkaTemplateString;
+        this.mapper = mapper;
+        this.orderRepository = orderRepository;
+    }
 
     /**
      * Создать заказ
@@ -249,7 +268,7 @@ public class OrderServiceImpl implements OrderService {
             throw new BadRequestException();
         }
         log.info("--- payAndSendMessage 7 ---");
-        sendMessageToNotificafion(xRequestId, Long.parseLong(xUserId), OperationPay, order.calculatePayMoney(), 0);
+        sendKafkaToNotificafion(xRequestId, Long.parseLong(xUserId), OperationPay, order.calculatePayMoney(), 0);
         log.info("--- payAndSendMessage 8 ---");
         clear(UUID.fromString(xRequestId));
         wareHousePay(xRequestId, xUserId);
@@ -349,7 +368,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("--- cancel 1 --- xRequestId - " + xRequestId);
         log.info("--- cancel 2 --- xUserId - " + xUserId);
         log.info("--- cancel 3 --- order - " + order);
-        sendMessageToNotificafion(xRequestId, Long.parseLong(xUserId), OperationNoPay, 0, 0);
+        sendKafkaToNotificafion(xRequestId, Long.parseLong(xUserId), OperationNoPay, 0, 0);
         log.info("--- cancel 4 ---");
         order.setReserveCourier(false);
         log.info("--- cancel 5 ---");
@@ -533,6 +552,57 @@ public class OrderServiceImpl implements OrderService {
         ResponseEntity<String> result = rt.exchange(requestEntity, String.class);
         log.info("-- 5 -- " + result.getBody());
         return result.getBody() != null;
+    }
+
+    private void sendKafkaToNotificafion(String xRequestId, long userId, String operation,
+                                           double count, double total) {
+        log.info("-- sendKafkaToNotificafion 1 --");
+        log.info("-- sendKafkaToNotificafion 1 -- xRequestId - " + xRequestId);
+        log.info("-- sendKafkaToNotificafion 1 -- userId - " + userId);
+        log.info("-- sendKafkaToNotificafion 1 -- operation - " + operation);
+        log.info("-- sendKafkaToNotificafion 1 -- count - " + count);
+        log.info("-- sendKafkaToNotificafion 1 -- total - " + total);
+        MoneyKafka moneyKafka = new MoneyKafka(LocalDateTime.now(), operation, count, total,
+            xRequestId, userId);
+        log.info("-- sendKafkaToNotificafion 2 --");
+        StringWriter writer = new StringWriter();
+        log.info("-- sendKafkaToNotificafion 3 --");
+        ObjectMapper mapper = new ObjectMapper();
+        log.info("-- sendKafkaToNotificafion 4 --");
+        mapper.findAndRegisterModules();
+        log.info("-- sendKafkaToNotificafion 5 --");
+        try {
+            mapper.writeValue(writer, moneyKafka);
+        } catch (IOException e) {
+            log.info("-- sendKafkaToNotificafion -- IOException - " + e);
+            return;
+        }
+        log.info("-- sendKafkaToNotificafion 6 --");
+        String jsonMessage = writer.toString();
+        log.info("-- sendKafkaToNotificafion 7 -- json - " + jsonMessage);
+        for (int i =0; i < notificPartitions; i++)
+        {
+            var no = i;
+            log.info("-- sendKafkaToNotificafion 8 --");
+            kafkaTemplateString.send(notificTopic, Integer.toString(i), jsonMessage)
+                .whenComplete(
+                    (result, ex) -> {
+                        if (ex == null) {
+                            log.info(
+                                "message id:{} was sent, offset:{}",
+                                no,
+                                result.getRecordMetadata().offset());
+                            sendAsk.accept(Integer.toString(no));
+                        } else {
+                            log.error("message id:{} was not sent", no, ex);
+                        }
+                    });
+//                .addCallback(
+//                    result -> log.info("send complete {}", no),
+//                    fail -> log.error("fail send", fail.getCause()));
+            log.info("-- sendKafkaToNotificafion 9 --");
+        }
+        log.info("-- sendKafkaToNotificafion 10 --");
     }
 
     private void sendMessageToNotificafion(String xRequestId, long userId, String operation,

@@ -10,12 +10,15 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <groupId>ru.andreybaryshnikov.im</groupId>
     <artifactId>app</artifactId>
+    <version>latest</version>
+    <name>app</name>
+
+    <description>app</description>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -66,4 +69,13 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

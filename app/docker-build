@@ -3,11 +3,12 @@ minikube addons enable ingress
 minikube dashboard
 kubectl create ns auth
 kubectl config set-context --current --namespace=auth
-cd "C:\My\Обучение\Otus\MicrosArchit\03\22\otus_3_22\app"
+cd "C:\My\Обучение\Otus\MicrosArchit\05\37\example_5_37\app"
 
-docker build -t otus322-app .
-docker tag otus322-app andrey1andrey/otus322-app
-docker push andrey1andrey/otus322-app
+docker build -t otus-app .
+docker tag otus-app andrey1andrey/otus-app
+docker push andrey1andrey/otus-app
 
 helm install app chart/ --values chart/app-values.yaml
+helm delete app
 kubectl apply -f app-ingress.yaml

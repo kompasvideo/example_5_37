@@ -2,7 +2,7 @@ package ru.andreybaryshnikov.warehouseservice.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.andreybaryshnikov.model.dto.ProductDto;
+import ru.andreybaryshnikov.warehouseservice.model.dto.ProductDto;
 import ru.andreybaryshnikov.warehouseservice.model.Product;
 import ru.andreybaryshnikov.warehouseservice.model.Warehouse;
 import ru.andreybaryshnikov.warehouseservice.service.WarehouseService;
